@@ -13,6 +13,7 @@ versions = {
 	'1.12.2': 'https://launcher.mojang.com/mc/game/1.12.2/server/886945bfb2b978778c3a0288fd7fab09d315b25f/server.jar',
 }
 
+
 def get_host_ip():
 	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 	sock.connect(("8.8.8.8", 80))
@@ -71,6 +72,7 @@ class Download(object):
 		properties.set('online-mode', 'false')
 		properties.set('server-ip', host_ip)
 		properties.set('difficulty', 'normal')
+		properties.set('query.port', server_craft.get_free_port())
 		properties.confirm()
 		print('Seted online-mode = false')
 		print(f'Seted server-ip = {host_ip}')

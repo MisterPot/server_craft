@@ -2,8 +2,7 @@ import requests as rq
 import os
 import subprocess
 import socket
-from server_craft import Properties
-
+import server_craft
 
 versions = {
 	'1.17.1': 'https://launcher.mojang.com/v1/objects/a16d67e5807f57fc4e550299cf20226194497dc2/server.jar',
@@ -23,7 +22,7 @@ def get_host_ip():
 class Download(object):
 
 	def __init__(self, version):
-
+		server_craft.get_ok(version)
 		self.version = version
 		self.url = versions[version]
 		self.jar_file = None
@@ -43,6 +42,7 @@ class Download(object):
 		except Exception:
 			print('Download not successful.')
 			print('Check your internet connection ! (may you use proxy ?)')
+			return 0
 
 		with open('server.jar', 'wb') as file:
 			file.write(jar)
@@ -67,7 +67,7 @@ class Download(object):
 			file.writelines(out)
 
 		host_ip = get_host_ip()
-		properties = Properties('server.properties')
+		properties = server_craft.Properties('server.properties')
 		properties.set('online-mode', 'false')
 		properties.set('server-ip', host_ip)
 		properties.set('difficulty', 'normal')

@@ -2,6 +2,7 @@ from .server.server import Server
 from .server.config import Config
 from .server.properties import Properties
 from .download.download import Download, versions
+from .java_checker.java_checker import get_ok
 import pathlib
 import os
 

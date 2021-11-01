@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
 	name='server_craft',
-	version='1.0',
+	version='1.2',
 	packages=find_packages(),
 	install_requires=[
 		'requests==2.25.1',

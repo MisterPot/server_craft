@@ -1,13 +1,25 @@
 import subprocess
 
 
+class JavaNotFound(Exception):
+
+    def __str__(self):
+        return 'Java not found'
+
+
+class VersionNotSupported(Exception):
+
+    def __str__(self):
+        return 'This server version not supported'
+
+
 def get_version():
     proc = subprocess.run(['java', '--version'], stdout=subprocess.PIPE)
     vers = proc.stdout.decode().split(' ')[1]
     try:
         float(vers[:3])
     except ValueError:
-        raise FileExistsError('Java not found.\n JAVA INSTALLED ?')
+        raise JavaNotFound()
 
     return vers[:3]
 
@@ -31,4 +43,4 @@ def get_ok(server_v):
                 return True
 
     else:
-        raise ValueError('This server version not supported')
+        raise VersionNotSupported()

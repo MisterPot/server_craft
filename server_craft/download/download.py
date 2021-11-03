@@ -23,7 +23,13 @@ def get_host_ip():
 class Download(object):
 
 	def __init__(self, version):
-		server_craft.get_ok(version)
+		try:
+			server_craft.get_ok(version)
+
+		except server_craft.JavaNotFound:
+			server_craft.check_permission()
+			server_craft.java_download(version)
+
 		self.version = version
 		self.url = versions[version]
 		self.jar_file = None

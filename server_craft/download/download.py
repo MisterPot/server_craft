@@ -29,6 +29,11 @@ class Download(object):
 		except server_craft.JavaNotFound:
 			server_craft.check_permission()
 			server_craft.java_download(version)
+			try:
+				server_craft.get_ok(version)
+			except server_craft.JavaNotFound:
+				print('Reboot your computer.')
+				print('JAVA_HOME variable not commited')
 
 		self.version = version
 		self.url = versions[version]

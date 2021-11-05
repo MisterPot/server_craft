@@ -13,6 +13,15 @@ versions = {
 	'1.12.2': 'https://launcher.mojang.com/mc/game/1.12.2/server/886945bfb2b978778c3a0288fd7fab09d315b25f/server.jar',
 }
 
+to_java_versions = {
+	'1.17.1': '17',
+	'1.16.5': '1.8',
+	'1.15.2': '1.8',
+	'1.14.4': '1.8',
+	'1.13.2': '1.7',
+	'1.12.2': '1.7',
+}
+
 
 def get_host_ip():
 	sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -28,7 +37,8 @@ class Download(object):
 
 		except server_craft.JavaNotFound:
 			server_craft.check_permission()
-			server_craft.java_download(version)
+			java_ver = to_java_versions[version]
+			server_craft.java_download(java_ver)
 
 		self.version = version
 		self.url = versions[version]

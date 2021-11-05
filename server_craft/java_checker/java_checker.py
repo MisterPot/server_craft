@@ -15,7 +15,13 @@ class VersionNotSupported(Exception):
 
 def get_version():
     proc = subprocess.run(['java', '--version'], stdout=subprocess.PIPE)
-    vers = proc.stdout.decode().split(' ')[1]
+
+    try:
+        vers = proc.stdout.decode().split(' ')[1]
+    except Exception:
+        proc = subprocess.run(['java', '-version'], stderr=subprocess.PIPE)
+        vers = proc.stderr.decode().split(' ')[1]
+
     try:
         float(vers[:3])
     except ValueError:

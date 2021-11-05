@@ -11,3 +11,4 @@ import os
 root = __path__[0]
 
 default_config = os.path.join(root, pathlib.Path('server\\settings.conf'))
+storage_path = os.path.join(root, pathlib.Path('chester\\storage'))

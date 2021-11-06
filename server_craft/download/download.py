@@ -14,7 +14,7 @@ versions = {
 }
 
 to_java_versions = {
-	'1.17.1': '17',
+	'1.17.1': '17.',
 	'1.16.5': '1.8',
 	'1.15.2': '1.8',
 	'1.14.4': '1.8',
@@ -37,17 +37,8 @@ class Download(object):
 
 		except server_craft.JavaNotFound:
 			server_craft.check_permission()
-<<<<<<< HEAD
-			server_craft.java_download(version)
-			try:
-				server_craft.get_ok(version)
-			except server_craft.JavaNotFound:
-				print('Reboot your computer.')
-				print('JAVA_HOME variable not commited')
-=======
 			java_ver = to_java_versions[version]
 			server_craft.java_download(java_ver)
->>>>>>> java_v_checker
 
 		self.version = version
 		self.url = versions[version]

@@ -8,7 +8,7 @@ bits = str(struct.calcsize('P') * 8)
 sys = platform.system()
 
 versions = {
-    "17": {
+    "17.": {
         'Windows': {
             '64': 'https://download.oracle.com/java/17/latest/jdk-17_windows-x64_bin.exe',
             '32': 'https://download.oracle.com/java/17/latest/jdk-17_windows-x64_bin.exe',

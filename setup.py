@@ -9,7 +9,7 @@ setup(
 	],
 	include_package_data=True,
 	package_data={
-		"": ['*.conf'],
+		"": ['*.conf', '*.json'],
 	},
 	exclude_package_data={"": ["README.md"]},
 	entry_points={'console_scripts': ['craft=server_craft.scripts.craft:main']}	

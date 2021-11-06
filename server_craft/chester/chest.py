@@ -2,7 +2,6 @@ import server_craft
 import os
 import json
 import re
-import shutil
 import pathlib
 
 
@@ -79,24 +78,34 @@ def check_in_storage(version):
 
 @return_to(server_craft.storage_path)
 def refresh_storage():
+    print("Refresh chester storage")
     ls = os.listdir()
 
     data = {}
     for filename in ls:
+
+        if filename in ['__init__.py', '__pycache__']:
+            continue
+
         version = re.search(r'\d\S+\d', filename)
         data[version.group().replace('_', '.')] = os.path.join(os.getcwd(), filename)
 
     os.chdir('..')
     with DFile('downloaded.json') as file:
-        file.write(json.dumps(data))
-
+        file.bufer = json.dumps(data)
+        file.write('')
+    print("Refreshed")
 
 def copy_from_storage(version):
     refresh_storage()
-
+    root = os.getcwd()
     @return_to(server_craft.storage_path)
     def copy(dst_path):
-        shutil.copyfile(os.getcwd(), dst_path)
+        with open(dst_path, 'rb') as file:
+            out = file.read()
+
+        with open(os.path.join(root, pathlib.Path(dst_path).name), 'wb') as file:
+            file.write(out)
 
     dst_path = check_in_storage(version)
 
@@ -108,18 +117,22 @@ def copy_from_storage(version):
 
 @return_to(server_craft.storage_path, parent=1)
 def save_to_json(filename):
+    print('Try save to path to server jar-file')
     version = re.search(r'\d\S+\d', filename).group().replace("_", '.')
     with DFile('downloaded.json') as file:
         out = json.loads(file.read())
         out[version] = os.path.join(server_craft.storage_path, filename)
-        file.write(json.dumps(out))
-
+        file.bufer = json.dumps(out)
+        file.write('')
+    print('OK')
 
 @return_to(server_craft.storage_path)
 def save_server_jar(version, request):
+    print('Try save server jar')
     file_name = f'jar_{version.replace(".", "_")}.jar'
     save_to_json(file_name)
     with open(file_name, 'wb') as file:
         file.write(request.content)
+    print('Saved')
 
     return os.path.join(os.getcwd(), file_name)

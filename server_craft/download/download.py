@@ -45,21 +45,25 @@ class Download(object):
         self.jar_file = None
 
     def download(self, server_dir='.'):
-        print('Downloading....')
+        print('Try create server')
         try:
             os.chdir(server_dir)
 
         except FileNotFoundError:
             print('Wrong path to server directory!')
 
-        path = server_craft.check_version(self.version)
+        path = server_craft.check_in_storage(self.version)
 
         if path:
+            print('Server exist in chester, try copy')
             server_craft.copy_from_storage(self.version)
+            print("Copied succsesful!")
         else:
             try:
+                print('Downloading....')
                 s = rq.Session()
                 jar_request = s.get(self.url)
+                print('Download successful!')
                 path = server_craft.save_server_jar(self.version, jar_request)
                 server_craft.copy_from_storage(self.version)
 
@@ -70,7 +74,7 @@ class Download(object):
 
         self.jar_file = path
 
-        print('Download successful!')
+
         print('Unpacking....')
 
         self.__unpack()

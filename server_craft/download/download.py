@@ -81,16 +81,7 @@ class Download(object):
         self.__change_properties()
 
     def __change_properties(self):
-
         print('Prepare file "server.properties"')
-        with open('server.properties', 'r') as file:
-            out = file.readlines()
-
-        out.insert(2, '[server]')
-
-        with open('server.properties', 'w') as file:
-            file.writelines(out)
-
         host_ip = get_host_ip()
         free_port = server_craft.get_free_port()
         properties = server_craft.Properties('server.properties')

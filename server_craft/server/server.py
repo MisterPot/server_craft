@@ -2,6 +2,7 @@ from .config import Config
 import pathlib
 import os
 import subprocess
+import glob
 
 
 class Server:
@@ -24,7 +25,7 @@ class Server:
         spec = conf.spec_props
         self.props = ['java']
         self.props.extend(mem)
-        self.props.extend(['-jar', 'server.jar'])
+        self.props.extend(['-jar', glob.glob('*.jar')[0]])
         self.props.extend(st)
 
     def restart(self):

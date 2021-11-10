@@ -1,17 +1,33 @@
 import os
 from argparse import ArgumentParser
 import server_craft
+import shutil
 
 
 def main():
     parser = ArgumentParser()
+    parser.add_argument('-l', '--list', nargs='?', const='default', default=False, type=bool,
+                        help="Print all saved worlds in storage")
     parser.add_argument('-s', '--send', type=str, nargs=1, default=[], help='Send world to another user')
     parser.add_argument('-r', '--receive', type=str, nargs=1, default=[], help='Get world from player with current IP')
+    parser.add_argument('-i', '--insert', type=str, nargs=1, help='Insert saved world in current dir')
 
     args = parser.parse_args()
 
+    l = args.list
     recv = args.receive
     send = args.send
+    ins = args.insert
+
+    if l:
+        os.chdir(server_craft.worlds_storage_path)
+        print([ file.split('.')[0] for file in os.listdir() if file not in ['__init__.py', '__pycache__']])
+        os._exit(0)
+
+    if ins:
+        file = f"{ins[0]}.world"
+        path = os.path.join(server_craft.worlds_storage_path, file)
+        shutil.unpack_archive(path, '.', 'zip')
 
     if recv:
         try:

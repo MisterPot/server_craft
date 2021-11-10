@@ -1,4 +1,7 @@
 import configparser as cp
+import os
+import shutil
+import server_craft
 
 start_properties = {
 	'maxMemory': '-Xmx{}M',
@@ -31,7 +34,7 @@ start_properties = {
 		True: '--demo',
 		False: None,
 	},
-}	
+}
 
 
 class Config(object):
@@ -87,6 +90,20 @@ class Config(object):
 		onl_init = get('onlyInit')
 		safe_mod = get('safeMode')
 
+		if world.startswith('%'):
+			root = os.getcwd()
+			os.chdir(world_dir)
+			if os.path.exists(world[1:]):
+				pass
+			else:
+				try:
+					shutil.unpack_archive(os.path.join(server_craft.worlds_storage_path,
+													   f'{world[1:]}.world'), '.', 'zip')
+				except Exception:
+					print('Not current world in storage')
+					os._exit(0)
+
+			os.chdir(root)
 
 		self.__mem_arg(start_properties['maxMemory'].format(max_))
 		self.__mem_arg(start_properties['initMemory'].format(min_))

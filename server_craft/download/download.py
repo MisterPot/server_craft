@@ -39,6 +39,8 @@ class Download(object):
             server_craft.check_permission()
             java_ver = to_java_versions[version]
             server_craft.java_download(java_ver)
+            print('Restart your console with administrator mode!')
+            os.abort()
 
         self.version = version
         self.url = versions[version]

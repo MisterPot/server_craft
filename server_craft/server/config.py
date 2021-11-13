@@ -91,6 +91,7 @@ class Config(object):
 		safe_mod = get('safeMode')
 
 		if world.startswith('%'):
+			world = world[1:]
 			root = os.getcwd()
 			os.chdir(world_dir)
 			if os.path.exists(world[1:]):
@@ -98,7 +99,7 @@ class Config(object):
 			else:
 				try:
 					shutil.unpack_archive(os.path.join(server_craft.worlds_storage_path,
-													   f'{world[1:]}.world'), '.', 'zip')
+													   f'{world}.world'), '.', 'zip')
 				except Exception:
 					print('Not current world in storage')
 					os._exit(0)

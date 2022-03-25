@@ -5,6 +5,8 @@ import socket
 import server_craft
 
 versions = {
+    '1.18.2': 'https://launcher.mojang.com/v1/objects/c8f83c5655308435b3dcf03c06d9fe8740a77469/server.jar',
+    '1.18.1': 'https://launcher.mojang.com/v1/objects/125e5adf40c659fd3bce3e66e67a16bb49ecc1b9/server.jar',
     '1.17.1': 'https://launcher.mojang.com/v1/objects/a16d67e5807f57fc4e550299cf20226194497dc2/server.jar',
     '1.16.5': 'https://launcher.mojang.com/v1/objects/1b557e7b033b583cd9f66746b7a9ab1ec1673ced/server.jar',
     '1.15.2': 'https://launcher.mojang.com/v1/objects/bb2b6b1aefcd70dfd1892149ac3a215f6c636b07/server.jar',
@@ -14,6 +16,8 @@ versions = {
 }
 
 to_java_versions = {
+    '1.18.2': '17.',
+    '1.18.1': '17.',
     '1.17.1': '17.',
     '1.16.5': '1.8',
     '1.15.2': '1.8',
@@ -31,7 +35,10 @@ def get_host_ip():
 
 class Download(object):
 
-    def __init__(self, version):
+    def __init__(self, version: str):
+        core = 'vanilla'
+        if version.find(':') != -1:
+            version, core = version.split(':')
         try:
             server_craft.get_ok(version)
 
@@ -43,6 +50,7 @@ class Download(object):
             os.abort()
 
         self.version = version
+        self.core = core
         self.url = versions[version]
         self.jar_file = None
 
